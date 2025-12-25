@@ -1,26 +1,10 @@
-import axios from 'axios';
-import authService from './authService';
-
-const API_BASE_URL = import.meta.env.VITE_API_URL || 'http://localhost:8000/api';
+import axiosInstance from '../config/axiosConfig';
 
 const adminService = {
-    // Get authorization headers
-    getAuthHeaders: () => {
-        const token = authService.getToken();
-        return {
-            headers: {
-                Authorization: `Bearer ${token}`
-            }
-        };
-    },
-
     // Get all users (paginated)
     getAllUsers: async (page = 1, limit = 10) => {
         try {
-            const response = await axios.get(
-                `${API_BASE_URL}/users?page=${page}&limit=${limit}`,
-                adminService.getAuthHeaders()
-            );
+            const response = await axiosInstance.get(`/users?page=${page}&limit=${limit}`);
             return response.data;
         } catch (error) {
             console.error('Error fetching users:', error);
@@ -31,10 +15,7 @@ const adminService = {
     // Get single user details
     getUser: async (userId) => {
         try {
-            const response = await axios.get(
-                `${API_BASE_URL}/users/${userId}`,
-                adminService.getAuthHeaders()
-            );
+            const response = await axiosInstance.get(`/users/${userId}`);
             return response.data;
         } catch (error) {
             console.error('Error fetching user:', error);
@@ -45,11 +26,7 @@ const adminService = {
     // Update user (including role)
     updateUser: async (userId, updateData) => {
         try {
-            const response = await axios.put(
-                `${API_BASE_URL}/users/${userId}`,
-                updateData,
-                adminService.getAuthHeaders()
-            );
+            const response = await axiosInstance.put(`/users/${userId}`, updateData);
             return response.data;
         } catch (error) {
             console.error('Error updating user:', error);
@@ -60,10 +37,7 @@ const adminService = {
     // Delete user
     deleteUser: async (userId) => {
         try {
-            const response = await axios.delete(
-                `${API_BASE_URL}/users/${userId}`,
-                adminService.getAuthHeaders()
-            );
+            const response = await axiosInstance.delete(`/users/${userId}`);
             return response.data;
         } catch (error) {
             console.error('Error deleting user:', error);
@@ -74,10 +48,7 @@ const adminService = {
     // Get user statistics
     getUserStats: async () => {
         try {
-            const response = await axios.get(
-                `${API_BASE_URL}/users`,
-                adminService.getAuthHeaders()
-            );
+            const response = await axiosInstance.get('/users');
 
             if (response.data.success) {
                 const users = response.data.data.items;

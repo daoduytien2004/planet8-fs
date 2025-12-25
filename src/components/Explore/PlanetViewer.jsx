@@ -2,7 +2,6 @@ import React, { useState, Suspense, useLayoutEffect, useRef } from 'react';
 import { Canvas, useFrame } from '@react-three/fiber';
 import { OrbitControls, useGLTF } from '@react-three/drei';
 import * as THREE from 'three';
-import './Explore.css';
 
 // Component 3D Model - Fixed normalization + proper rotation
 function Planet3DModel({ modelUrl, isRotating }) {
@@ -66,7 +65,7 @@ const PlanetViewer = ({ planet }) => {
 
     if (!planet) {
         return (
-            <div className="planet-viewer empty">
+            <div className="flex flex-col items-center justify-center p-12 z-[1] text-slate-500 text-xl">
                 <p>Chọn một hành tinh để xem chi tiết</p>
             </div>
         );
@@ -90,8 +89,8 @@ const PlanetViewer = ({ planet }) => {
     const show3D = viewMode === '3d' && hasModel3D;
 
     return (
-        <div className="planet-viewer">
-            <div className="planet-3d-container">
+        <div className="flex flex-col items-center justify-center p-12 z-[1]">
+            <div className="w-[450px] h-[450px] flex items-center justify-center mb-8 relative xl:w-[350px] xl:h-[350px]">
                 {show3D ? (
                     // Render 3D Model
                     <Canvas
@@ -164,21 +163,21 @@ const PlanetViewer = ({ planet }) => {
                     <img
                         src={planet.image2d || '/planets/default.png'}
                         alt={planet.nameVi}
-                        className="planet-image"
+                        className={`w-full h-full object-contain filter drop-shadow-[0_0_50px_rgba(99,102,241,0.5)] transition-transform duration-300 ${isRotating ? 'animate-[rotate_20s_linear_infinite]' : ''}`}
                     />
                 )}
             </div>
-            <div className="viewer-controls">
+            <div className="flex gap-4">
                 {/* Nút toggle giữa 3D và 2D - chỉ hiển thị nếu có model 3D */}
                 {hasModel3D && (
-                    <button className="control-btn" onClick={toggleViewMode}>
+                    <button className="px-6 py-3 bg-slate-800/80 border border-indigo-500/30 text-white rounded-lg cursor-pointer transition-all duration-300 flex items-center gap-2 text-sm hover:bg-indigo-500/20 hover:border-indigo-500" onClick={toggleViewMode}>
                         {viewMode === '3d' ? 'Ảnh 2D' : 'Model 3D'}
                     </button>
                 )}
 
                 {/* Nút xoay - chỉ hiển thị khi đang ở chế độ 3D */}
                 {show3D && (
-                    <button className="control-btn" onClick={handleRotate}>
+                    <button className="px-6 py-3 bg-slate-800/80 border border-indigo-500/30 text-white rounded-lg cursor-pointer transition-all duration-300 flex items-center gap-2 text-sm hover:bg-indigo-500/20 hover:border-indigo-500" onClick={handleRotate}>
                         {isRotating ? 'Dừng xoay' : 'Xoay 3D'}
                     </button>
                 )}

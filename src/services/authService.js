@@ -1,21 +1,22 @@
 import axios from 'axios';
+import axiosInstance from '../config/axiosConfig';
+import tokenService from './tokenService';
 
 const API_BASE_URL = import.meta.env.VITE_API_URL || 'http://localhost:8000/api';
-const TOKEN_KEY = 'planet8_auth_token';
-const USER_KEY = 'planet8_user';
 
 const authService = {
     // Login user
     login: async (username, password) => {
         try {
+            // Use plain axios or axiosInstance. Login typically doesn't need the bearer token.
             const response = await axios.post(`${API_BASE_URL}/auth/login`, {
                 username,
                 password
-            });
+            }, { withCredentials: true });
 
             if (response.data.success && response.data.data.accessToken) {
-                authService.setToken(response.data.data.accessToken);
-                authService.setUser(response.data.data.user);
+                tokenService.setToken(response.data.data.accessToken);
+                tokenService.setUser(response.data.data.user);
                 // Dispatch event to notify other components
                 window.dispatchEvent(new Event('authChange'));
                 return response.data;
@@ -49,68 +50,56 @@ const authService = {
 
     // Store token in localStorage
     setToken: (token) => {
-        if (token) {
-            localStorage.setItem(TOKEN_KEY, token);
-        }
+        tokenService.setToken(token);
     },
 
     // Get token from localStorage
     getToken: () => {
-        return localStorage.getItem(TOKEN_KEY);
+        return tokenService.getToken();
     },
 
     // Remove token from localStorage
     removeToken: () => {
-        localStorage.removeItem(TOKEN_KEY);
+        tokenService.removeToken();
     },
 
     // Store user data
     setUser: (user) => {
-        if (user) {
-            localStorage.setItem(USER_KEY, JSON.stringify(user));
-        }
+        tokenService.setUser(user);
     },
 
     // Get user data
     getUser: () => {
-        const userData = localStorage.getItem(USER_KEY);
-        return userData ? JSON.parse(userData) : null;
+        return tokenService.getUser();
     },
 
     // Remove user data
     removeUser: () => {
-        localStorage.removeItem(USER_KEY);
+        tokenService.removeUser();
     },
 
     // Check if user is authenticated
     isAuthenticated: () => {
-        return !!authService.getToken();
+        return !!tokenService.getToken();
     },
 
     // Check if user is admin
     isAdmin: () => {
-        const user = authService.getUser();
+        const user = tokenService.getUser();
         return user && user.role === 'admin';
     },
 
     // Get user role
     getUserRole: () => {
-        const user = authService.getUser();
+        const user = tokenService.getUser();
         return user ? user.role : null;
     },
 
     // Get current user's quiz stats
     getMyStats: async () => {
         try {
-            const token = authService.getToken();
-            if (!token) throw new Error('Not authenticated');
-
-            const response = await axios.get(`${API_BASE_URL}/users/me/stats`, {
-                headers: {
-                    Authorization: `Bearer ${token}`
-                }
-            });
-
+            // Use axiosInstance to get auto-refresh capabilities
+            const response = await axiosInstance.get('/users/me/stats');
             return response.data.data;
         } catch (error) {
             console.error('Error fetching user stats:', error);
@@ -149,8 +138,8 @@ const authService = {
 
     // Logout - clear all auth data
     logout: () => {
-        authService.removeToken();
-        authService.removeUser();
+        tokenService.removeToken();
+        tokenService.removeUser();
         // Dispatch event to notify other components
         window.dispatchEvent(new Event('authChange'));
     }

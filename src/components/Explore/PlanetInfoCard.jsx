@@ -1,5 +1,4 @@
 import React from 'react';
-import './Explore.css';
 
 const PlanetInfoCard = ({ planet, planetDetails }) => {
     if (!planet) {
@@ -41,66 +40,66 @@ const PlanetInfoCard = ({ planet, planetDetails }) => {
     const gases = planetDetails?.gases || [];
 
     return (
-        <div className="planet-info-card">
+        <div className="bg-slate-900/90 backdrop-blur-sm border-l border-indigo-500/20 p-8 overflow-y-auto z-10 flex flex-col hidden lg:flex">
             {/* Header */}
-            <div className="card-header">
-                <span className="planet-order">
+            <div className="flex justify-between items-center mb-4">
+                <span className="text-xs text-indigo-500 font-semibold tracking-widest">
                     VỊ TRÍ THỨ {orbit.orderFromSun || planet.id}
                 </span>
             </div>
 
             {/* Title */}
-            <h1 className="planet-title">{planet.nameVi}</h1>
-            <p className="planet-subtitle">
+            <h1 className="text-[2.5rem] font-bold mb-2 bg-gradient-to-br from-white to-slate-400 bg-clip-text text-transparent">{planet.nameVi}</h1>
+            <p className="text-lg text-slate-400 mb-6">
                 {planet.nameEn || planet.shortDescription || 'The Blue Planet'}
             </p>
 
             {/* Description */}
-            <p className="planet-description">
+            <p className="text-sm leading-relaxed text-slate-300 mb-8">
                 {planet.overview || planetDetails?.overview || 'Đang tải thông tin...'}
             </p>
 
             {/* Physical Properties Section */}
-            <div className="explore-info-section">
-                <h3 className="section-title"> Đặc Điểm Vật Lý</h3>
-                <div className="explore-stats-grid">
-                    <div className="explore-stat-item">
-                        <div className="explore-stat-label">
+            <div className="mb-8">
+                <h3 className="text-base font-semibold text-slate-200 mb-4 pb-2 border-b border-indigo-500/20 flex items-center gap-2"> Đặc Điểm Vật Lý</h3>
+                <div className="grid grid-cols-2 gap-3 mb-8 w-full">
+                    <div className="bg-slate-800/50 border border-indigo-500/20 rounded-xl p-4 w-auto max-w-none">
+                        <div className="flex items-center gap-2 text-[0.7rem] text-slate-400 font-semibold tracking-wider mb-2">
                             BÁN KÍNH
                         </div>
-                        <div className="explore-stat-value">
+                        <div className="text-base font-bold text-white">
                             {physical.radiusKm ? `${formatNumber(physical.radiusKm)} km` : 'N/A'}
                         </div>
                     </div>
-                    <div className="explore-stat-item">
-                        <div className="explore-stat-label">
+                    <div className="bg-slate-800/50 border border-indigo-500/20 rounded-xl p-4 w-auto max-w-none">
+                        <div className="flex items-center gap-2 text-[0.7rem] text-slate-400 font-semibold tracking-wider mb-2">
                             KHỐI LƯỢNG
                         </div>
-                        <div className="explore-stat-value">
+                        <div className="text-base font-bold text-white">
                             {formatMass(physical.massKg)}
                         </div>
                     </div>
-                    <div className="explore-stat-item">
-                        <div className="explore-stat-label">
+                    <div className="bg-slate-800/50 border border-indigo-500/20 rounded-xl p-4 w-auto max-w-none">
+                        <div className="flex items-center gap-2 text-[0.7rem] text-slate-400 font-semibold tracking-wider mb-2">
                             NHIỆT ĐỘ TB
                         </div>
-                        <div className="explore-stat-value">
+                        <div className="text-base font-bold text-white">
                             {physical.temperatureAvgC ? `${physical.temperatureAvgC}°C` : 'N/A'}
                         </div>
                     </div>
-                    <div className="explore-stat-item">
-                        <div className="explore-stat-label">
+                    <div className="bg-slate-800/50 border border-indigo-500/20 rounded-xl p-4 w-auto max-w-none">
+                        <div className="flex items-center gap-2 text-[0.7rem] text-slate-400 font-semibold tracking-wider mb-2">
                             TRỌNG LỰC
                         </div>
-                        <div className="explore-stat-value">
+                        <div className="text-base font-bold text-white">
                             {physical.gravity ? `${physical.gravity} m/s²` : 'N/A'}
                         </div>
                     </div>
-                    <div className="explore-stat-item">
-                        <div className="explore-stat-label">
+                    <div className="bg-slate-800/50 border border-indigo-500/20 rounded-xl p-4 w-auto max-w-none">
+                        <div className="flex items-center gap-2 text-[0.7rem] text-slate-400 font-semibold tracking-wider mb-2">
                             MẬT ĐỘ
                         </div>
-                        <div className="explore-stat-value">
+                        <div className="text-base font-bold text-white">
                             {physical.density ? `${physical.density} g/cm³` : 'N/A'}
                         </div>
                     </div>
@@ -108,38 +107,38 @@ const PlanetInfoCard = ({ planet, planetDetails }) => {
             </div>
 
             {/* Orbital Properties Section */}
-            <div className="explore-info-section">
-                <h3 className="section-title">Thông Số Quỹ Đạo</h3>
-                <div className="explore-stats-grid">
-                    <div className="explore-stat-item">
-                        <div className="explore-stat-label">
+            <div className="mb-8">
+                <h3 className="text-base font-semibold text-slate-200 mb-4 pb-2 border-b border-indigo-500/20 flex items-center gap-2">Thông Số Quỹ Đạo</h3>
+                <div className="grid grid-cols-2 gap-3 mb-8 w-full">
+                    <div className="bg-slate-800/50 border border-indigo-500/20 rounded-xl p-4 w-auto max-w-none">
+                        <div className="flex items-center gap-2 text-[0.7rem] text-slate-400 font-semibold tracking-wider mb-2">
                             KHOẢNG CÁCH
                         </div>
-                        <div className="explore-stat-value">
+                        <div className="text-base font-bold text-white">
                             {formatDistance(orbit.distanceFromSunKm)}
                         </div>
                     </div>
-                    <div className="explore-stat-item">
-                        <div className="explore-stat-label">
+                    <div className="bg-slate-800/50 border border-indigo-500/20 rounded-xl p-4 w-auto max-w-none">
+                        <div className="flex items-center gap-2 text-[0.7rem] text-slate-400 font-semibold tracking-wider mb-2">
                             CHU KỲ QUỸ ĐẠO
                         </div>
-                        <div className="explore-stat-value">
+                        <div className="text-base font-bold text-white">
                             {orbit.orbitalPeriodDays ? `${formatNumber(orbit.orbitalPeriodDays)} ngày` : 'N/A'}
                         </div>
                     </div>
-                    <div className="explore-stat-item">
-                        <div className="explore-stat-label">
+                    <div className="bg-slate-800/50 border border-indigo-500/20 rounded-xl p-4 w-auto max-w-none">
+                        <div className="flex items-center gap-2 text-[0.7rem] text-slate-400 font-semibold tracking-wider mb-2">
                             CHU KỲ TỰ QUAY
                         </div>
-                        <div className="explore-stat-value">
+                        <div className="text-base font-bold text-white">
                             {formatRotation(orbit.rotationPeriodHours)}
                         </div>
                     </div>
-                    <div className="explore-stat-item">
-                        <div className="explore-stat-label">
+                    <div className="bg-slate-800/50 border border-indigo-500/20 rounded-xl p-4 w-auto max-w-none">
+                        <div className="flex items-center gap-2 text-[0.7rem] text-slate-400 font-semibold tracking-wider mb-2">
                             GÓC NGHIÊNG
                         </div>
-                        <div className="explore-stat-value">
+                        <div className="text-base font-bold text-white">
                             {orbit.axialTiltDeg !== null && orbit.axialTiltDeg !== undefined
                                 ? `${orbit.axialTiltDeg}°`
                                 : 'N/A'}
@@ -150,22 +149,22 @@ const PlanetInfoCard = ({ planet, planetDetails }) => {
 
             {/* Atmospheric Composition */}
             {gases && gases.length > 0 && (
-                <div className="explore-info-section">
-                    <h3 className="section-title">Thành Phần Khí Quyển</h3>
-                    <div className="atmosphere-bars">
+                <div className="mb-8">
+                    <h3 className="text-base font-semibold text-slate-200 mb-4 pb-2 border-b border-indigo-500/20 flex items-center gap-2">Thành Phần Khí Quyển</h3>
+                    <div className="flex flex-col gap-3">
                         {gases
                             .sort((a, b) => b.PlanetAtmosphere.percentage - a.PlanetAtmosphere.percentage)
                             .map((gas, index) => (
-                                <div key={gas.id || index} className="gas-bar">
-                                    <div className="gas-info">
-                                        <span className="gas-name">{gas.name}</span>
-                                        <span className="gas-percentage">
+                                <div key={gas.id || index} className="flex flex-col gap-1">
+                                    <div className="flex justify-between items-center text-xs">
+                                        <span className="text-slate-300 font-medium">{gas.name}</span>
+                                        <span className="text-indigo-500 font-bold text-xs">
                                             {gas.PlanetAtmosphere.percentage}%
                                         </span>
                                     </div>
-                                    <div className="progress-bar">
+                                    <div className="w-full h-1.5 bg-slate-800/80 rounded-full overflow-hidden">
                                         <div
-                                            className="progress-fill"
+                                            className="h-full bg-gradient-to-r from-indigo-500 to-indigo-400 rounded-full transition-[width] duration-500"
                                             style={{ width: `${gas.PlanetAtmosphere.percentage}%` }}
                                         />
                                     </div>
@@ -177,16 +176,16 @@ const PlanetInfoCard = ({ planet, planetDetails }) => {
 
             {/* Moons */}
             {moons && moons.length > 0 && (
-                <div className="explore-info-section">
-                    <h3 className="section-title">Vệ Tinh ({moons.length})</h3>
-                    <div className="moons-list">
+                <div className="mb-8">
+                    <h3 className="text-base font-semibold text-slate-200 mb-4 pb-2 border-b border-indigo-500/20 flex items-center gap-2">Vệ Tinh ({moons.length})</h3>
+                    <div className="flex flex-wrap gap-2">
                         {moons.slice(0, 5).map((moon, index) => (
-                            <span key={moon.id || index} className="moon-tag">
+                            <span key={moon.id || index} className="px-4 py-2 bg-indigo-500/15 border border-indigo-500/30 rounded-full text-xs text-slate-200 font-medium transition-all duration-300 hover:bg-indigo-500/25 hover:-translate-y-0.5">
                                 {moon.nameVi || moon.nameEn || `Moon ${index + 1}`}
                             </span>
                         ))}
                         {moons.length > 5 && (
-                            <span className="moon-tag more">+{moons.length - 5} khác</span>
+                            <span className="px-4 py-2 bg-blue-500/15 border border-blue-500/30 text-slate-400 rounded-full text-xs font-medium transition-all duration-300 hover:bg-indigo-500/25 hover:-translate-y-0.5">+{moons.length - 5} khác</span>
                         )}
                     </div>
                 </div>
