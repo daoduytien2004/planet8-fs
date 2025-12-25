@@ -61,43 +61,43 @@ const PlanetInfoCard = ({ planet, planetDetails }) => {
             </p>
 
             {/* Physical Properties Section */}
-            <div className="info-section">
+            <div className="explore-info-section">
                 <h3 className="section-title"> Đặc Điểm Vật Lý</h3>
-                <div className="stats-grid">
-                    <div className="stat-item">
-                        <div className="stat-label">
+                <div className="explore-stats-grid">
+                    <div className="explore-stat-item">
+                        <div className="explore-stat-label">
                             BÁN KÍNH
                         </div>
                         <div className="explore-stat-value">
                             {physical.radiusKm ? `${formatNumber(physical.radiusKm)} km` : 'N/A'}
                         </div>
                     </div>
-                    <div className="stat-item">
-                        <div className="stat-label">
+                    <div className="explore-stat-item">
+                        <div className="explore-stat-label">
                             KHỐI LƯỢNG
                         </div>
                         <div className="explore-stat-value">
                             {formatMass(physical.massKg)}
                         </div>
                     </div>
-                    <div className="stat-item">
-                        <div className="stat-label">
+                    <div className="explore-stat-item">
+                        <div className="explore-stat-label">
                             NHIỆT ĐỘ TB
                         </div>
                         <div className="explore-stat-value">
                             {physical.temperatureAvgC ? `${physical.temperatureAvgC}°C` : 'N/A'}
                         </div>
                     </div>
-                    <div className="stat-item">
-                        <div className="stat-label">
+                    <div className="explore-stat-item">
+                        <div className="explore-stat-label">
                             TRỌNG LỰC
                         </div>
                         <div className="explore-stat-value">
                             {physical.gravity ? `${physical.gravity} m/s²` : 'N/A'}
                         </div>
                     </div>
-                    <div className="stat-item">
-                        <div className="stat-label">
+                    <div className="explore-stat-item">
+                        <div className="explore-stat-label">
                             MẬT ĐỘ
                         </div>
                         <div className="explore-stat-value">
@@ -108,35 +108,35 @@ const PlanetInfoCard = ({ planet, planetDetails }) => {
             </div>
 
             {/* Orbital Properties Section */}
-            <div className="info-section">
+            <div className="explore-info-section">
                 <h3 className="section-title">Thông Số Quỹ Đạo</h3>
-                <div className="stats-grid">
-                    <div className="stat-item">
-                        <div className="stat-label">
+                <div className="explore-stats-grid">
+                    <div className="explore-stat-item">
+                        <div className="explore-stat-label">
                             KHOẢNG CÁCH
                         </div>
                         <div className="explore-stat-value">
                             {formatDistance(orbit.distanceFromSunKm)}
                         </div>
                     </div>
-                    <div className="stat-item">
-                        <div className="stat-label">
+                    <div className="explore-stat-item">
+                        <div className="explore-stat-label">
                             CHU KỲ QUỸ ĐẠO
                         </div>
                         <div className="explore-stat-value">
                             {orbit.orbitalPeriodDays ? `${formatNumber(orbit.orbitalPeriodDays)} ngày` : 'N/A'}
                         </div>
                     </div>
-                    <div className="stat-item">
-                        <div className="stat-label">
+                    <div className="explore-stat-item">
+                        <div className="explore-stat-label">
                             CHU KỲ TỰ QUAY
                         </div>
                         <div className="explore-stat-value">
                             {formatRotation(orbit.rotationPeriodHours)}
                         </div>
                     </div>
-                    <div className="stat-item">
-                        <div className="stat-label">
+                    <div className="explore-stat-item">
+                        <div className="explore-stat-label">
                             GÓC NGHIÊNG
                         </div>
                         <div className="explore-stat-value">
@@ -150,7 +150,7 @@ const PlanetInfoCard = ({ planet, planetDetails }) => {
 
             {/* Atmospheric Composition */}
             {gases && gases.length > 0 && (
-                <div className="info-section">
+                <div className="explore-info-section">
                     <h3 className="section-title">Thành Phần Khí Quyển</h3>
                     <div className="atmosphere-bars">
                         {gases
@@ -177,7 +177,7 @@ const PlanetInfoCard = ({ planet, planetDetails }) => {
 
             {/* Moons */}
             {moons && moons.length > 0 && (
-                <div className="info-section">
+                <div className="explore-info-section">
                     <h3 className="section-title">Vệ Tinh ({moons.length})</h3>
                     <div className="moons-list">
                         {moons.slice(0, 5).map((moon, index) => (
