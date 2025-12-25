@@ -1,0 +1,35 @@
+import { BrowserRouter, Routes, Route } from 'react-router-dom';
+import Navbar from './components/Navbar/Navbar';
+import Home from './pages/Home';
+import Explore from './pages/Explore';
+import Quiz from './pages/Quiz';
+import QuizTaking from './pages/QuizTaking';
+import Chatbot from './pages/Chatbot';
+import Login from './pages/Login';
+import Register from './pages/Register';
+import VerifyEmail from './pages/VerifyEmail';
+import Profile from './pages/Profile';
+import ChangePassword from './pages/ChangePassword';
+import './index.css';
+
+function App() {
+    return (
+        <BrowserRouter>
+            <Navbar />
+            <Routes>
+                <Route path="/" element={<Home />} />
+                <Route path="/explore" element={<Explore />} />
+                <Route path="/quiz" element={<Quiz />} />
+                <Route path="/quiz/take/:quizId" element={<QuizTaking />} />
+                <Route path="/chatbot" element={<Chatbot />} />
+                <Route path="/login" element={<Login />} />
+                <Route path="/register" element={<Register />} />
+                <Route path="/verify-email" element={<VerifyEmail />} />
+                <Route path="/profile" element={<Profile />} />
+                <Route path="/change-password" element={<ChangePassword />} />
+            </Routes>
+        </BrowserRouter>
+    );
+}
+
+export default App;
