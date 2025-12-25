@@ -14,7 +14,7 @@ import ResetPassword from './pages/ResetPassword';
 import Profile from './pages/Profile';
 import ChangePassword from './pages/ChangePassword';
 import AdminDashboard from './pages/AdminDashboard';
-import './index.css';
+
 
 function App() {
     return (
@@ -23,9 +23,17 @@ function App() {
             <Routes>
                 <Route path="/" element={<Home />} />
                 <Route path="/explore" element={<Explore />} />
-                <Route path="/quiz" element={<Quiz />} />
+                <Route path="/quiz" element={
+                    <ProtectedRoute>
+                      <Quiz />
+                    </ProtectedRoute>
+                }/>
                 <Route path="/quiz/take/:quizId" element={<QuizTaking />} />
-                <Route path="/chatbot" element={<Chatbot />} />
+                <Route path="/chatbot" element={
+                    <ProtectedRoute>
+                      <Chatbot />
+                    </ProtectedRoute>
+                }/>
                 <Route path="/login" element={<Login />} />
                 <Route path="/register" element={<Register />} />
                 <Route path="/verify-email" element={<VerifyEmail />} />

@@ -3,7 +3,6 @@ import { useParams, useNavigate } from 'react-router-dom';
 import quizService from '../services/quizService';
 import QuizQuestion from '../components/QuizTaking/QuizQuestion';
 import QuizResults from '../components/QuizTaking/QuizResults';
-import './QuizTaking.css';
 
 function QuizTaking() {
     const { quizId } = useParams();
@@ -127,10 +126,11 @@ function QuizTaking() {
 
     if (loading && !currentQuestion) {
         return (
-            <div className="quiz-taking-page">
-                <div className="loading-container">
-                    <div className="loading-spinner"></div>
-                    <p className="loading-text">Đang tải quiz...</p>
+            <div className="h-[90vh] bg-gradient-to-br from-[#0a0e27] to-[#1a1d3d] p-4 relative overflow-hidden flex items-center justify-center">
+                <div className="absolute inset-0 pointer-events-none opacity-30 bg-[size:200px_200px] bg-[image:radial-gradient(2px_2px_at_20px_30px,white,transparent),radial-gradient(2px_2px_at_60px_70px,white,transparent),radial-gradient(1px_1px_at_50px_50px,white,transparent)] animate-[twinkle_5s_ease-in-out_infinite]" />
+                <div className="flex flex-col items-center justify-center min-h-[80vh] gap-6 relative z-10">
+                    <div className="w-[60px] h-[60px] border-4 border-indigo-500/20 border-t-indigo-500 rounded-full animate-spin"></div>
+                    <p className="text-xl text-slate-400 font-medium">Đang tải quiz...</p>
                 </div>
             </div>
         );
@@ -138,10 +138,11 @@ function QuizTaking() {
 
     if (error) {
         return (
-            <div className="quiz-taking-page">
-                <div className="error-container">
-                    <p className="error-text">{error}</p>
-                    <button className="retry-button" onClick={startQuizAttempt}>
+            <div className="h-[90vh] bg-gradient-to-br from-[#0a0e27] to-[#1a1d3d] p-4 relative overflow-hidden flex items-center justify-center">
+                <div className="absolute inset-0 pointer-events-none opacity-30 bg-[size:200px_200px] bg-[image:radial-gradient(2px_2px_at_20px_30px,white,transparent),radial-gradient(2px_2px_at_60px_70px,white,transparent),radial-gradient(1px_1px_at_50px_50px,white,transparent)] animate-[twinkle_5s_ease-in-out_infinite]" />
+                <div className="flex flex-col items-center justify-center min-h-[80vh] gap-6 relative z-10">
+                    <p className="text-xl text-red-500 text-center">{error}</p>
+                    <button className="px-8 py-4 bg-indigo-500 border-none text-white rounded-xl text-base font-semibold cursor-pointer transition-all duration-300 hover:bg-indigo-600 hover:-translate-y-0.5 hover:shadow-[0_10px_25px_rgba(99,102,241,0.4)]" onClick={startQuizAttempt}>
                         Thử lại
                     </button>
                 </div>
@@ -151,7 +152,8 @@ function QuizTaking() {
 
     if (isCompleted && results) {
         return (
-            <div className="quiz-taking-page">
+            <div className="h-[90vh] bg-gradient-to-br from-[#0a0e27] to-[#1a1d3d] p-4 relative overflow-hidden flex items-center justify-center">
+                <div className="absolute inset-0 pointer-events-none opacity-30 bg-[size:200px_200px] bg-[image:radial-gradient(2px_2px_at_20px_30px,white,transparent),radial-gradient(2px_2px_at_60px_70px,white,transparent),radial-gradient(1px_1px_at_50px_50px,white,transparent)] animate-[twinkle_5s_ease-in-out_infinite]" />
                 <QuizResults
                     results={results}
                     onRetry={handleRetry}
@@ -162,7 +164,15 @@ function QuizTaking() {
     }
 
     return (
-        <div className="quiz-taking-page">
+        <div className="h-[90vh] bg-gradient-to-br from-[#0a0e27] to-[#1a1d3d] p-4 relative overflow-hidden flex items-center justify-center">
+            <div className="absolute inset-0 pointer-events-none opacity-30 bg-[size:200px_200px] bg-[image:radial-gradient(2px_2px_at_20px_30px,white,transparent),radial-gradient(2px_2px_at_60px_70px,white,transparent),radial-gradient(1px_1px_at_50px_50px,white,transparent)] animate-[twinkle_5s_ease-in-out_infinite]" />
+            <style jsx>{`
+                @keyframes twinkle {
+                    0%, 100% { opacity: 0.3; }
+                    50% { opacity: 0.5; }
+                }
+            `}</style>
+
             {/* Question Display */}
             {currentQuestion && (
                 <QuizQuestion

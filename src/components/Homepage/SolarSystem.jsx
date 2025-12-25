@@ -375,48 +375,19 @@ function SolarSystem() {
         <>
             <div
                 ref={mountRef}
-                style={{
-                    width: '100%',
-                    height: '90vh'
-                }}
+                className="w-full h-[90vh]"
             />
             {loading && (
-                <div style={{
-                    position: 'fixed',
-                    top: '50%',
-                    left: '50%',
-                    transform: 'translate(-50%, -50%)',
-                    color: 'white',
-                    fontSize: '1.5rem',
-                    zIndex: 3000
-                }}>
+                <div className="fixed top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 text-white text-2xl z-[3000]">
                     Đang tải hệ Mặt Trời...
                 </div>
             )}
             {selectedPlanet && (
-                <div style={{
-                    position: 'fixed',
-                    bottom: '30px',
-                    left: '50%',
-                    transform: 'translateX(-50%)',
-                    background: 'rgba(0,0,0,0.9)',
-                    color: 'white',
-                    padding: '15px 30px',
-                    borderRadius: '12px',
-                    zIndex: 2000
-                }}>
+                <div className="fixed bottom-8 left-1/2 -translate-x-1/2 bg-black/90 text-white py-4 px-8 rounded-xl z-[2000] flex items-center gap-4">
                     {selectedPlanet.toUpperCase()}
                     <button
                         onClick={() => setSelectedPlanet(null)}
-                        style={{
-                            marginLeft: '15px',
-                            background: '#4a90e2',
-                            border: 'none',
-                            color: 'white',
-                            padding: '5px 15px',
-                            borderRadius: '5px',
-                            cursor: 'pointer'
-                        }}
+                        className="bg-[#4a90e2] border-none text-white py-1.5 px-4 rounded cursor-pointer hover:bg-[#357abd] transition-colors"
                     >
                         ✕
                     </button>
