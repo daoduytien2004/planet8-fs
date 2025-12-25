@@ -57,6 +57,13 @@ function Navbar() {
                         Trợ lý AI
                     </NavLink>
                 </li>
+                {authService.isAdmin() && (
+                    <li>
+                        <NavLink to="/admin" className={({ isActive }) => isActive ? 'nav-link active admin-link' : 'nav-link admin-link'}>
+                            Admin
+                        </NavLink>
+                    </li>
+                )}
             </ul>
 
             <div className="nav-auth">

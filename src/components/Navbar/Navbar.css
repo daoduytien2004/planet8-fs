@@ -52,9 +52,27 @@
 
 .nav-link.active {
     color: white;
-    background: rgba(74, 144, 226, 0.3);
-    border: 1px solid rgba(74, 144, 226, 0.5);
+    background: rgba(99, 102, 241, 0.2);
+    border: 1px solid rgba(99, 102, 241, 0.5);
 }
+
+.nav-link.admin-link {
+    background: rgba(99, 102, 241, 0.15);
+    border: 1px solid rgba(99, 102, 241, 0.3);
+}
+
+.nav-link.admin-link:hover {
+    background: rgba(99, 102, 241, 0.25);
+    border-color: #6366f1;
+}
+
+.nav-link.admin-link.active {
+    background: rgba(99, 102, 241, 0.3);
+    border: 1px solid #6366f1;
+    box-shadow: 0 0 20px rgba(99, 102, 241, 0.3);
+}
+
+
 
 .nav-auth {
     display: flex;

@@ -87,6 +87,18 @@ const authService = {
         return !!authService.getToken();
     },
 
+    // Check if user is admin
+    isAdmin: () => {
+        const user = authService.getUser();
+        return user && user.role === 'admin';
+    },
+
+    // Get user role
+    getUserRole: () => {
+        const user = authService.getUser();
+        return user ? user.role : null;
+    },
+
     // Get current user's quiz stats
     getMyStats: async () => {
         try {
@@ -102,6 +114,35 @@ const authService = {
             return response.data.data;
         } catch (error) {
             console.error('Error fetching user stats:', error);
+            throw error;
+        }
+    },
+
+    // Forgot password - request reset email
+    forgotPassword: async (email) => {
+        try {
+            const response = await axios.post(`${API_BASE_URL}/auth/forgot-password`, {
+                email
+            });
+
+            return response.data;
+        } catch (error) {
+            console.error('Forgot password error:', error);
+            throw error;
+        }
+    },
+
+    // Reset password with token
+    resetPassword: async (token, newPassword) => {
+        try {
+            const response = await axios.post(`${API_BASE_URL}/auth/reset-password`, {
+                token,
+                newPassword
+            });
+
+            return response.data;
+        } catch (error) {
+            console.error('Reset password error:', error);
             throw error;
         }
     },
