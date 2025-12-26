@@ -112,8 +112,8 @@ const AdminDashboard = () => {
                 <div className="flex gap-4 mb-8 justify-center md:flex-col">
                     <button
                         className={`px-8 py-4 rounded-[10px] text-base font-semibold cursor-pointer transition-all duration-300 backdrop-blur-md border ${activeTab === 'users'
-                                ? 'bg-indigo-500/20 border-indigo-500 text-white shadow-[0_10px_30px_rgba(99,102,241,0.3)]'
-                                : 'bg-slate-800/80 border-indigo-500/30 text-white/70 hover:bg-indigo-500/10 hover:border-indigo-500/50 hover:text-white hover:-translate-y-0.5'
+                            ? 'bg-indigo-500/20 border-indigo-500 text-white shadow-[0_10px_30px_rgba(99,102,241,0.3)]'
+                            : 'bg-slate-800/80 border-indigo-500/30 text-white/70 hover:bg-indigo-500/10 hover:border-indigo-500/50 hover:text-white hover:-translate-y-0.5'
                             }`}
                         onClick={() => setActiveTab('users')}
                     >
@@ -121,8 +121,8 @@ const AdminDashboard = () => {
                     </button>
                     <button
                         className={`px-8 py-4 rounded-[10px] text-base font-semibold cursor-pointer transition-all duration-300 backdrop-blur-md border ${activeTab === 'stats'
-                                ? 'bg-indigo-500/20 border-indigo-500 text-white shadow-[0_10px_30px_rgba(99,102,241,0.3)]'
-                                : 'bg-slate-800/80 border-indigo-500/30 text-white/70 hover:bg-indigo-500/10 hover:border-indigo-500/50 hover:text-white hover:-translate-y-0.5'
+                            ? 'bg-indigo-500/20 border-indigo-500 text-white shadow-[0_10px_30px_rgba(99,102,241,0.3)]'
+                            : 'bg-slate-800/80 border-indigo-500/30 text-white/70 hover:bg-indigo-500/10 hover:border-indigo-500/50 hover:text-white hover:-translate-y-0.5'
                             }`}
                         onClick={() => setActiveTab('stats')}
                     >
@@ -169,8 +169,8 @@ const AdminDashboard = () => {
                                                     <td className="p-4 border-b border-indigo-500/10 text-white/90">{user.email}</td>
                                                     <td className="p-4 border-b border-indigo-500/10 text-center">
                                                         <span className={`inline-block px-3.5 py-1.5 rounded-full text-xs font-semibold ${user.role === 'admin'
-                                                                ? 'bg-indigo-500/20 border border-indigo-500/40 text-indigo-300'
-                                                                : 'bg-slate-700/30 border border-slate-500/30 text-slate-300'
+                                                            ? 'bg-indigo-500/20 border border-indigo-500/40 text-indigo-300'
+                                                            : 'bg-slate-700/30 border border-slate-500/30 text-slate-300'
                                                             }`}>
                                                             {user.role === 'admin' ? 'Quản trị viên' : 'Người dùng'}
                                                         </span>
@@ -179,8 +179,8 @@ const AdminDashboard = () => {
                                                     <td className="p-4 border-b border-indigo-500/10 text-center text-white/90">{user.totalXp || 0}</td>
                                                     <td className="p-4 border-b border-indigo-500/10 text-center">
                                                         <span className={`inline-block px-3.5 py-1.5 rounded-full text-xs font-semibold ${user.isVerified
-                                                                ? 'bg-green-500/20 border border-green-500/30 text-green-300'
-                                                                : 'bg-red-500/20 border border-red-500/30 text-red-300'
+                                                            ? 'bg-green-500/20 border border-green-500/30 text-green-300'
+                                                            : 'bg-red-500/20 border border-red-500/30 text-red-300'
                                                             }`}>
                                                             {user.isVerified ? 'Đã xác thực' : 'Chưa xác thực'}
                                                         </span>
