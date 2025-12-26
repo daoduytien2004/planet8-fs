@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useMemo } from 'react';
 import QuizOption from './QuizOption';
 
 function QuizQuestion({
@@ -15,8 +15,18 @@ function QuizQuestion({
 }) {
     if (!question) return null;
 
-    // Ensure we have options array
-    const options = question.options || [];
+    // Shuffle options randomly when question changes
+    const shuffledOptions = useMemo(() => {
+        const options = question.options || [];
+        // Create a copy and shuffle using Fisher-Yates algorithm
+        const shuffled = [...options];
+        for (let i = shuffled.length - 1; i > 0; i--) {
+            const j = Math.floor(Math.random() * (i + 1));
+            [shuffled[i], shuffled[j]] = [shuffled[j], shuffled[i]];
+        }
+        return shuffled;
+    }, [question?.id]); // Re-shuffle only when question changes
+
     const optionLetters = ['A', 'B', 'C', 'D'];
 
     return (
@@ -46,7 +56,7 @@ function QuizQuestion({
 
             {/* Answer Options */}
             <div className="grid grid-cols-1 gap-4 max-w-[1200px] mx-auto md:grid-cols-2 md:gap-6 mb-8">
-                {options.map((option, index) => {
+                {shuffledOptions.map((option, index) => {
                     // Logic to color options based on check state can be improved here
                     // For now, we rely on QuizOption handling 'isSelected'. 
                     // To show correct/incorrect specifically on option would require passing that data down

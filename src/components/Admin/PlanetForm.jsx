@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react';
 import planetApi from '../../apis/planetApi';
 import gasApi from '../../apis/gasApi';
+import { showToast } from '../ui/Toast';
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogFooter, DialogDescription } from "@/components/ui/dialog";
@@ -130,7 +131,7 @@ const PlanetForm = ({ open, onOpenChange, planet, onSuccess }) => {
             onSuccess();
         } catch (error) {
             console.error('Submit error:', error);
-            alert('Lỗi lưu dữ liệu: ' + (error.response?.data?.message || error.message));
+            showToast('Lỗi lưu dữ liệu: ' + (error.response?.data?.message || error.message), 'error');
         } finally {
             setLoading(false);
         }

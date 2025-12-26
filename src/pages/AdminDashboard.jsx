@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react';
 import adminService from '../apis/adminApi';
 import authService from '../apis/authApi';
+import { showToast } from '../components/ui/Toast';
 import QuizManager from '../components/Admin/QuizManager';
 import PlanetManager from '../components/Admin/PlanetManager';
 import GasManager from '../components/Admin/GasManager';
@@ -47,7 +48,7 @@ export const AdminDashboard = () => {
             }
         } catch (error) {
             console.error('Error loading users:', error);
-            alert('Không thể tải danh sách người dùng');
+            showToast('Không thể tải danh sách người dùng', 'error');
         } finally {
             setLoading(false);
         }
@@ -83,13 +84,13 @@ export const AdminDashboard = () => {
                 role: selectedUser.role
             };
             await adminService.updateUser(selectedUser.id, updateData);
-            alert('Cập nhật thành công');
+            showToast('Cập nhật thành công', 'success');
             setShowEditModal(false);
             setSelectedUser(null);
             loadUsers();
         } catch (error) {
             console.error('Error updating user:', error);
-            alert('Cập nhật thất bại');
+            showToast('Cập nhật thất bại', 'error');
         }
     };
 
@@ -98,14 +99,14 @@ export const AdminDashboard = () => {
 
         try {
             await adminService.deleteUser(selectedUser.id);
-            alert('Xóa người dùng thành công');
+            showToast('Xóa người dùng thành công', 'success');
             setShowDeleteModal(false);
             setSelectedUser(null);
             // Reload users after deletion
             loadUsers();
         } catch (error) {
             console.error('Error deleting user:', error);
-            alert(error.response?.data?.message || 'Không thể xóa người dùng');
+            showToast(error.response?.data?.message || 'Không thể xóa người dùng', 'error');
         }
     };
 

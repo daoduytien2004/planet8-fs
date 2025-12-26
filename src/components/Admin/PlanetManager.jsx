@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react';
 import planetApi from '../../apis/planetApi';
+import { showToast } from '../ui/Toast';
 import { Button } from "@/components/ui/button";
 import { Plus, Pencil, Trash2, Search } from 'lucide-react';
 import { Input } from "@/components/ui/input";
@@ -50,7 +51,7 @@ const PlanetManager = () => {
             setShowFormModal(true);
         } catch (error) {
             console.error('Error fetching details:', error);
-            alert('Không thể tải thông tin chi tiết');
+            showToast('Không thể tải thông tin chi tiết', 'error');
         }
     };
 
@@ -61,7 +62,7 @@ const PlanetManager = () => {
                 loadPlanets();
             } catch (error) {
                 console.error('Error deleting planet:', error);
-                alert('Xóa thất bại');
+                showToast('Xóa thất bại', 'error');
             }
         }
     };

@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react';
 import gasApi from '../../apis/gasApi';
+import { showToast } from '../ui/Toast';
 import { Button } from "@/components/ui/button";
 import { Plus, Pencil, Trash2, Search, FlaskConical } from 'lucide-react';
 import { Input } from "@/components/ui/input";
@@ -77,7 +78,7 @@ const GasManager = () => {
                 loadGases();
             } catch (error) {
                 console.error('Error deleting gas:', error);
-                alert('Xóa thất bại');
+                showToast('Xóa thất bại', 'error');
             }
         }
     };
@@ -93,7 +94,7 @@ const GasManager = () => {
             loadGases();
         } catch (error) {
             console.error('Submit error:', error);
-            alert('Lỗi lưu dữ liệu: ' + (error.response?.data?.message || error.message));
+            showToast('Lỗi lưu dữ liệu: ' + (error.response?.data?.message || error.message), 'error');
         }
     };
 

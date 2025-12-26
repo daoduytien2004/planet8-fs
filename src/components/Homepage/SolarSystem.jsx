@@ -382,17 +382,7 @@ function SolarSystem() {
                     Đang tải hệ Mặt Trời...
                 </div>
             )}
-            {selectedPlanet && (
-                <div className="fixed bottom-8 left-1/2 -translate-x-1/2 bg-black/90 text-white py-4 px-8 rounded-xl z-[2000] flex items-center gap-4">
-                    {selectedPlanet.toUpperCase()}
-                    <button
-                        onClick={() => setSelectedPlanet(null)}
-                        className="bg-[#4a90e2] border-none text-white py-1.5 px-4 rounded cursor-pointer hover:bg-[#357abd] transition-colors"
-                    >
-                        ✕
-                    </button>
-                </div>
-            )}
+
         </>
     );
 }

@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import quizService from '../apis/quizApi';
 import authService from '../apis/authApi';
+import { showToast } from '../components/ui/Toast';
 import QuizQuestion from '../components/QuizTaking/QuizQuestion';
 import QuizResults from '../components/QuizTaking/QuizResults';
 
@@ -98,7 +99,7 @@ function QuizTaking() {
             setIsAnswerChecked(true);
         } catch (err) {
             console.error('Error submitting answer:', err);
-            alert('Lỗi khi kiểm tra đáp án. Vui lòng thử lại.');
+            showToast('Lỗi khi kiểm tra đáp án. Vui lòng thử lại.', 'error');
         }
     };
 

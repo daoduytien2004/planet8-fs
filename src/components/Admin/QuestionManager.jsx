@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import quizApi from '../../apis/quizApi';
+import { showToast } from '../ui/Toast';
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
@@ -44,16 +45,16 @@ const QuestionManager = ({ quiz, onBack }) => {
     };
 
     const handleAddQuestion = async () => {
-        if (!newQuestion.content) return alert('Vui lòng nhập nội dung câu hỏi');
-        if (!newQuestion.options.some(o => o.isCorrect)) return alert('Vui lòng chọn đáp án đúng');
-        if (newQuestion.options.some(o => !o.content)) return alert('Vui lòng nhập đầy đủ nội dung các lựa chọn');
+        if (!newQuestion.content) return showToast('Vui lòng nhập nội dung câu hỏi', 'warning');
+        if (!newQuestion.options.some(o => o.isCorrect)) return showToast('Vui lòng chọn đáp án đúng', 'warning');
+        if (newQuestion.options.some(o => !o.content)) return showToast('Vui lòng nhập đầy đủ nội dung các lựa chọn', 'warning');
 
         setLoading(true);
         try {
             await quizApi.addQuestions(quiz.id, {
                 questions: [newQuestion]
             });
-            alert('Thêm câu hỏi thành công');
+            showToast('Thêm câu hỏi thành công', 'success');
             setNewQuestion({
                 content: '',
                 mediaUrl: '',
@@ -67,7 +68,7 @@ const QuestionManager = ({ quiz, onBack }) => {
             // Ideally refresh list here
         } catch (error) {
             console.error('Error adding question:', error);
-            alert('Thêm câu hỏi thất bại');
+            showToast('Thêm câu hỏi thất bại', 'error');
         } finally {
             setLoading(false);
         }

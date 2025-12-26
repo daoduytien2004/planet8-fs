@@ -1,6 +1,7 @@
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import Navbar from './components/Navbar/Navbar';
 import ProtectedRoute from './components/ProtectedRoute';
+import { ToastContainer } from './components/ui/Toast';
 import Home from './pages/Home';
 import Explore from './pages/Explore';
 import Quiz from './pages/Quiz';
@@ -20,6 +21,7 @@ function App() {
     return (
         <BrowserRouter>
             <Navbar />
+            <ToastContainer />
             <Routes>
                 <Route path="/" element={<Home />} />
                 <Route path="/explore" element={<Explore />} />

@@ -1,11 +1,12 @@
 import { NavLink, useNavigate } from 'react-router-dom';
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import authService from '../../apis/authApi';
 import AvatarDropdown from './AvatarDropdown';
 
 function Navbar() {
     const [user, setUser] = useState(null);
     const [showDropdown, setShowDropdown] = useState(false);
+    const avatarButtonRef = useRef(null);
     const navigate = useNavigate();
 
     useEffect(() => {
@@ -43,7 +44,7 @@ function Navbar() {
     };
 
     return (
-        <nav className="w-full h-[10vh] flex justify-between items-center px-10 bg-[#0a0a25]/90 backdrop-blur-md border-b border-white/10 z-[1000]">
+        <nav className="w-full h-[10vh] flex justify-between items-center px-10 bg-[#0a0a25]/90 backdrop-blur-md border-b border-white/10 z-[9999]">
             <div className="flex items-center gap-2.5 cursor-pointer">
                 <span className="text-[28px]">🪐</span>
                 <span className="text-white text-xl font-bold">Planet8</span>
@@ -97,6 +98,7 @@ function Navbar() {
             <div className="flex items-center">
                 {user ? (
                     <div
+                        ref={avatarButtonRef}
                         className="flex items-center gap-3 cursor-pointer relative"
                         onClick={toggleDropdown}
                     >
@@ -120,7 +122,7 @@ function Navbar() {
                                 </span>
                             </div>
                         </div>
-                        {showDropdown && <AvatarDropdown onClose={() => setShowDropdown(false)} />}
+                        {showDropdown && <AvatarDropdown onClose={() => setShowDropdown(false)} buttonRef={avatarButtonRef} />}
                     </div>
                 ) : (
                     <NavLink to="/login" className="flex items-center gap-2 bg-[#4a90e2] text-white no-underline px-5 py-2.5 rounded-[20px] text-sm font-semibold transition-all duration-300 hover:bg-[#357abd] hover:-translate-y-0.5">

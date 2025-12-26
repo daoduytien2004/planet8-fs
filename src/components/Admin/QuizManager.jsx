@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react';
 import quizApi from '../../apis/quizApi';
 import planetApi from '../../apis/planetApi';
+import { showToast } from '../ui/Toast';
 import QuestionManager from './QuestionManager';
 import { Button } from "@/components/ui/button";
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogFooter, DialogDescription } from "@/components/ui/dialog";
@@ -111,7 +112,7 @@ const QuizManager = () => {
                 loadQuizzes(selectedPlanet.id, currentPage);
             } catch (error) {
                 console.error('Error deleting quiz:', error);
-                alert('Xóa thất bại');
+                showToast('Xóa thất bại', 'error');
             }
         }
     };
@@ -132,7 +133,7 @@ const QuizManager = () => {
             loadQuizzes(selectedPlanet.id, currentPage);
         } catch (error) {
             console.error('Error saving quiz:', error);
-            alert('Lưu thất bại');
+            showToast('Lưu thất bại', 'error');
         }
     };
 
