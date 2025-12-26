@@ -13,6 +13,7 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 const PlanetForm = ({ open, onOpenChange, planet, onSuccess }) => {
     const [activeTab, setActiveTab] = useState('general');
     const [loading, setLoading] = useState(false);
+    const [uploading, setUploading] = useState(false);
     const [gases, setGases] = useState([]);
 
     // Initial State - matched with backend JSON structure
@@ -65,6 +66,35 @@ const PlanetForm = ({ open, onOpenChange, planet, onSuccess }) => {
             setGases(items);
         } catch (error) {
             console.error('Failed to load gases', error);
+        }
+    };
+
+    // Upload file to Cloudinary
+    const uploadToCloudinary = async (file) => {
+        setUploading(true);
+        try {
+            const formData = new FormData();
+            formData.append('file', file);
+
+            const API_BASE_URL = import.meta.env.VITE_API_URL || 'http://localhost:8000/api';
+            const response = await fetch(`${API_BASE_URL}/upload`, {
+                method: 'POST',
+                body: formData,
+            });
+
+            const result = await response.json();
+
+            if (result.success) {
+                return result.data.url;  // Cloudinary URL
+            } else {
+                throw new Error(result.message || 'Upload failed');
+            }
+        } catch (error) {
+            console.error('Upload failed:', error);
+            showToast('Upload thất bại: ' + error.message, 'error');
+            return null;
+        } finally {
+            setUploading(false);
         }
     };
 
@@ -249,14 +279,30 @@ const PlanetForm = ({ open, onOpenChange, planet, onSuccess }) => {
                                                     type="file"
                                                     className="hidden"
                                                     accept="image/*"
-                                                    onChange={(e) => {
+                                                    onChange={async (e) => {
                                                         const file = e.target.files[0];
-                                                        if (file) {
-                                                            // For now, we just create a local URL for preview
-                                                            // In a real app, you'd upload this to Cloudinary here or on submit
-                                                            const url = URL.createObjectURL(file);
-                                                            handleChange('image2d', url);
-                                                            // Store file if needed for upload logic later: handleChange('imageFile', file);
+                                                        if (!file) return;
+
+                                                        // Kiểm tra kích thước file (max 5MB)
+                                                        if (file.size > 5 * 1024 * 1024) {
+                                                            showToast('File quá lớn! Tối đa 5MB', 'error');
+                                                            e.target.value = '';
+                                                            return;
+                                                        }
+
+                                                        // Hiển thị preview tạm thời
+                                                        const tempUrl = URL.createObjectURL(file);
+                                                        handleChange('image2d', tempUrl);
+
+                                                        // Upload lên Cloudinary
+                                                        const cloudinaryUrl = await uploadToCloudinary(file);
+
+                                                        if (cloudinaryUrl) {
+                                                            handleChange('image2d', cloudinaryUrl);
+                                                            showToast('✅ Upload ảnh thành công!', 'success');
+                                                        } else {
+                                                            handleChange('image2d', '');
+                                                            e.target.value = '';
                                                         }
                                                     }}
                                                 />
@@ -276,6 +322,12 @@ const PlanetForm = ({ open, onOpenChange, planet, onSuccess }) => {
                                                 className="w-full h-full object-cover"
                                                 onError={(e) => { e.target.src = '/placeholder.png'; e.target.style.opacity = '0.5' }}
                                             />
+                                            {uploading && (
+                                                <div className="absolute inset-0 bg-black/70 flex flex-col items-center justify-center">
+                                                    <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-white mb-2"></div>
+                                                    <div className="text-white text-xs">Đang upload...</div>
+                                                </div>
+                                            )}
                                         </div>
                                     </div>
                                 )}
@@ -310,11 +362,30 @@ const PlanetForm = ({ open, onOpenChange, planet, onSuccess }) => {
                                                     type="file"
                                                     className="hidden"
                                                     accept=".glb,.gltf"
-                                                    onChange={(e) => {
+                                                    onChange={async (e) => {
                                                         const file = e.target.files[0];
-                                                        if (file) {
-                                                            const url = URL.createObjectURL(file);
-                                                            handleChange('model3d', url);
+                                                        if (!file) return;
+
+                                                        // Kiểm tra kích thước file (max 50MB)
+                                                        if (file.size > 50 * 1024 * 1024) {
+                                                            showToast('File quá lớn! Tối đa 50MB', 'error');
+                                                            e.target.value = '';
+                                                            return;
+                                                        }
+
+                                                        // Hiển thị preview tạm thời
+                                                        const tempUrl = URL.createObjectURL(file);
+                                                        handleChange('model3d', tempUrl);
+
+                                                        // Upload lên Cloudinary
+                                                        const cloudinaryUrl = await uploadToCloudinary(file);
+
+                                                        if (cloudinaryUrl) {
+                                                            handleChange('model3d', cloudinaryUrl);
+                                                            showToast('✅ Upload model thành công!', 'success');
+                                                        } else {
+                                                            handleChange('model3d', '');
+                                                            e.target.value = '';
                                                         }
                                                     }}
                                                 />
