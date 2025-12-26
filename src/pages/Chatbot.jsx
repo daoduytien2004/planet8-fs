@@ -1,5 +1,5 @@
 import { useState, useEffect, useRef } from 'react';
-import geminiService from '../services/geminiService';
+import geminiService from '../apis/geminiApi';
 
 function Chatbot() {
     const [messages, setMessages] = useState([]);
@@ -142,10 +142,10 @@ function Chatbot() {
                                 )}
 
                                 <div className={`p-4 rounded-2xl text-white leading-loose whitespace-pre-wrap break-words md:p-3 md:text-sm ${message.isError
-                                        ? 'bg-red-500/20 border border-red-500/30'
-                                        : message.role === 'model'
-                                            ? 'bg-[#1e233c]/80 border border-white/10'
-                                            : 'bg-gradient-to-br from-blue-500 to-blue-600 shadow-[0_4px_15px_rgba(59,130,246,0.3)]'
+                                    ? 'bg-red-500/20 border border-red-500/30'
+                                    : message.role === 'model'
+                                        ? 'bg-[#1e233c]/80 border border-white/10'
+                                        : 'bg-gradient-to-br from-blue-500 to-blue-600 shadow-[0_4px_15px_rgba(59,130,246,0.3)]'
                                     }`}>
                                     {message.text}
                                 </div>

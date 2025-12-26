@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import PlanetSidebar from '../components/explore/PlanetSidebar';
 import PlanetViewer from '../components/explore/PlanetViewer';
 import PlanetInfoCard from '../components/explore/PlanetInfoCard';
-import planetService from '../services/planetService';
+import planetService from '../apis/planetApi';
 
 function Explore() {
     const [planets, setPlanets] = useState([]);

@@ -87,7 +87,7 @@ function QuizCard({ planet, quizzes, userLevel = 1, completedQuizIds = [], onSta
             {/* Quiz List */}
             <div className="flex flex-col gap-1.5 mb-3 p-2.5 bg-slate-800/40 rounded-lg border border-indigo-500/20">
                 {quizzes && quizzes.length > 0 ? (
-                    quizzes.map((quiz, index) => {
+                    quizzes?.map((quiz, index) => {
                         const isQuizLocked = quiz.minLevel > userLevel;
                         const isQuizCompleted = completedQuizIds.includes(quiz.id);
                         return (

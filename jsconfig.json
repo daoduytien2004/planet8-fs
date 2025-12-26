@@ -1,0 +1,9 @@
+{
+  "compilerOptions": {
+    // ... các dòng cũ giữ nguyên
+    "baseUrl": ".",
+    "paths": {
+      "@/*": ["./src/*"]
+    }
+  }
+}

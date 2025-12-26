@@ -2,10 +2,10 @@ import React, { useState, useEffect } from 'react';
 import QuizHeader from '../components/Quiz/QuizHeader';
 import QuizCard from '../components/Quiz/QuizCard';
 import QuizSelectionModal from '../components/Quiz/QuizSelectionModal';
-import planetService from '../services/planetService';
-import quizService from '../services/quizService';
-import levelService from '../services/levelService';
-import authService from '../services/authService';
+import planetService from '../apis/planetApi';
+import quizService from '../apis/quizApi';
+import levelService from '../apis/levelApi';
+import authService from '../apis/authApi';
 
 function Quiz() {
     const token = authService.getToken()
@@ -38,7 +38,6 @@ function Quiz() {
                 planetService.getAll(),
                 quizService.getCompletedQuizzes()
             ]);
-
             setUserStats(statsData);
             setLevels(levelsData);
             setPlanets(planetsData);
@@ -48,7 +47,8 @@ function Quiz() {
             const quizzesMap = {};
             for (const planet of planetsData) {
                 try {
-                    const quizzes = await quizService.getQuizzesByPlanet(planet.id);
+                    const response = await quizService.getQuizzesByPlanet(planet.id);
+                    const quizzes = response.items;
                     quizzesMap[planet.id] = quizzes;
                 } catch (err) {
                     console.error(`Failed to load quizzes for planet ${planet.id}:`, err);

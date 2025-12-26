@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import authService from '../services/authService';
+import authService from '../apis/authApi';
 import axios from 'axios';
 
 const API_BASE_URL = import.meta.env.VITE_API_URL || 'http://localhost:8000/api';
@@ -152,8 +152,8 @@ function Profile() {
 
                     {message.text && (
                         <div className={`p-4 rounded-xl font-medium text-center ${message.type === 'success'
-                                ? 'bg-green-500/20 border border-green-500/40 text-green-300'
-                                : 'bg-red-500/20 border border-red-500/40 text-red-300'
+                            ? 'bg-green-500/20 border border-green-500/40 text-green-300'
+                            : 'bg-red-500/20 border border-red-500/40 text-red-300'
                             }`}>
                             {message.text}
                         </div>

@@ -13,7 +13,7 @@ import ForgotPassword from './pages/ForgotPassword';
 import ResetPassword from './pages/ResetPassword';
 import Profile from './pages/Profile';
 import ChangePassword from './pages/ChangePassword';
-import AdminDashboard from './pages/AdminDashboard';
+import { AdminDashboard } from './pages/AdminDashboard';
 
 
 function App() {
@@ -25,15 +25,15 @@ function App() {
                 <Route path="/explore" element={<Explore />} />
                 <Route path="/quiz" element={
                     <ProtectedRoute>
-                      <Quiz />
+                        <Quiz />
                     </ProtectedRoute>
-                }/>
+                } />
                 <Route path="/quiz/take/:quizId" element={<QuizTaking />} />
                 <Route path="/chatbot" element={
                     <ProtectedRoute>
-                      <Chatbot />
+                        <Chatbot />
                     </ProtectedRoute>
-                }/>
+                } />
                 <Route path="/login" element={<Login />} />
                 <Route path="/register" element={<Register />} />
                 <Route path="/verify-email" element={<VerifyEmail />} />

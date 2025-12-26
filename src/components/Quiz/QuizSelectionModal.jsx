@@ -10,13 +10,10 @@ function QuizSelectionModal({ planet, quizzes, userLevel = 1, completedQuizIds =
             // Don't allow starting locked quizzes
             return;
         }
-        // Don't allow starting completed quizzes
-        if (completedQuizIds.includes(quiz.id)) {
-            return;
-        }
+        // Always allow starting/retaking quiz
         navigate(`/quiz/take/${quiz.id}`);
     };
-
+    console.log(quizzes)
     if (!planet || !quizzes) return null;
 
     return (
@@ -42,7 +39,7 @@ function QuizSelectionModal({ planet, quizzes, userLevel = 1, completedQuizIds =
 
                 {/* Quiz List */}
                 <div className="flex flex-col gap-3 max-h-[60vh] overflow-y-auto pr-2 custom-scrollbar">
-                    {quizzes.map((quiz) => {
+                    {quizzes?.map((quiz) => {
                         const isLocked = quiz.minLevel > userLevel;
                         const isCompleted = completedQuizIds.includes(quiz.id);
                         return (
@@ -67,17 +64,23 @@ function QuizSelectionModal({ planet, quizzes, userLevel = 1, completedQuizIds =
                                         <div className="px-5 py-2.5 bg-slate-500/20 border border-slate-500/30 rounded-lg text-slate-400 text-sm font-semibold text-center">
                                             Yêu cầu cấp {quiz.minLevel}
                                         </div>
-                                    ) : isCompleted ? (
-                                        <div className="px-5 py-2.5 bg-green-500/20 border border-green-500/40 rounded-lg text-green-400 text-sm font-semibold text-center flex items-center justify-center gap-2">
-                                            <CheckIcon size={16} /> Đã hoàn thành
-                                        </div>
                                     ) : (
-                                        <button
-                                            className="px-5 py-2.5 bg-gradient-to-br from-indigo-500 to-violet-500 border-none rounded-lg text-white text-sm font-semibold cursor-pointer transition-all duration-300 shadow-[0_5px_15px_rgba(99,102,241,0.3)] hover:-translate-y-0.5 hover:shadow-[0_8px_25px_rgba(99,102,241,0.5)] md:w-full"
-                                            onClick={() => handleStartQuiz(quiz)}
-                                        >
-                                            Bắt đầu
-                                        </button>
+                                        <div className="flex flex-col gap-2 w-full md:w-auto">
+                                            {isCompleted && (
+                                                <div className="px-5 py-2.5 bg-green-500/20 border border-green-500/40 rounded-lg text-green-400 text-sm font-semibold text-left md:text-center flex items-center gap-2">
+                                                    <CheckIcon size={16} /> Đã hoàn thành
+                                                </div>
+                                            )}
+                                            <button
+                                                className={`px-5 py-2.5 border-none rounded-lg text-white text-sm font-semibold cursor-pointer transition-all duration-300 shadow-[0_5px_15px_rgba(99,102,241,0.3)] hover:-translate-y-0.5 hover:shadow-[0_8px_25px_rgba(99,102,241,0.5)] md:w-full ${isCompleted
+                                                    ? 'bg-slate-700/50 hover:bg-slate-600/50 ring-1 ring-white/10'
+                                                    : 'bg-gradient-to-br from-indigo-500 to-violet-500'
+                                                    }`}
+                                                onClick={() => handleStartQuiz(quiz)}
+                                            >
+                                                {isCompleted ? 'Làm lại bài' : 'Bắt đầu'}
+                                            </button>
+                                        </div>
                                     )}
                                 </div>
                             </div>

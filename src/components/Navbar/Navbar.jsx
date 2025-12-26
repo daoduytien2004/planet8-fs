@@ -1,6 +1,6 @@
 import { NavLink, useNavigate } from 'react-router-dom';
 import { useState, useEffect } from 'react';
-import authService from '../../services/authService';
+import authService from '../../apis/authApi';
 import AvatarDropdown from './AvatarDropdown';
 
 function Navbar() {
@@ -9,12 +9,26 @@ function Navbar() {
     const navigate = useNavigate();
 
     useEffect(() => {
-        // Check if user is logged in
-        setUser(authService.getUser());
+        // Initial load from localStorage (non-blocking)
+        const initUser = async () => {
+            const cachedUser = await authService.getUser();
+            setUser(cachedUser);
+        };
+        initUser();
+
+        // Fetch fresh data from backend with refresh=true
+        const fetchUserData = async () => {
+            if (authService.isAuthenticated()) {
+                const freshUser = await authService.getUser(true);
+                setUser(freshUser);
+            }
+        };
+        fetchUserData();
 
         // Listen for auth changes
-        const handleAuthChange = () => {
-            setUser(authService.getUser());
+        const handleAuthChange = async () => {
+            const user = await authService.getUser();
+            setUser(user);
         };
 
         window.addEventListener('authChange', handleAuthChange);
@@ -82,10 +96,12 @@ function Navbar() {
 
             <div className="flex items-center">
                 {user ? (
-                    <div className="flex items-center gap-3 cursor-pointer relative">
+                    <div
+                        className="flex items-center gap-3 cursor-pointer relative"
+                        onClick={toggleDropdown}
+                    >
                         <div
                             className="w-10 h-10 rounded-full bg-gradient-to-br from-indigo-500 to-violet-600 text-white flex items-center justify-center text-lg font-bold border-2 border-indigo-500/30 transition-all duration-300 cursor-pointer overflow-hidden hover:scale-105 hover:border-indigo-500 hover:shadow-[0_0_20px_rgba(99,102,241,0.4)]"
-                            onClick={toggleDropdown}
                         >
                             {user.avatarUrl ? (
                                 <img src={user.avatarUrl} alt="Avatar" className="w-full h-full object-cover" />
@@ -93,8 +109,16 @@ function Navbar() {
                                 user.username?.charAt(0).toUpperCase() || user.email?.charAt(0).toUpperCase() || 'U'
                             )}
                         </div>
-                        <div className="flex flex-col gap-1">
+                        <div className="flex flex-col gap-0.5">
                             <span className="text-white text-sm font-semibold">{user.username || user.email}</span>
+                            <div className="flex items-center gap-2">
+                                <span className="text-[10px] font-bold text-indigo-300 bg-indigo-500/20 px-1.5 py-0.5 rounded border border-indigo-500/30">
+                                    LV.{user.level || 1}
+                                </span>
+                                <span className="text-[10px] font-medium text-slate-400">
+                                    {user.totalXp || 0} XP
+                                </span>
+                            </div>
                         </div>
                         {showDropdown && <AvatarDropdown onClose={() => setShowDropdown(false)} />}
                     </div>

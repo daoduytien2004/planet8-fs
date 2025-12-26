@@ -43,13 +43,6 @@ function QuizHeader({ userStats, levels }) {
                 <div className="grid grid-cols-3 gap-6 lg:grid-cols-1 lg:gap-4">
                     <div className="bg-slate-900/50 border border-indigo-500/30 rounded-xl p-6 flex items-center gap-4 transition-all duration-300 hover:bg-slate-900/70 hover:border-indigo-500 hover:-translate-y-0.5 md:p-5">
                         <div className="flex-1">
-                            <div className="text-xs text-slate-400 uppercase tracking-widest mb-1 font-semibold">Đã chinh phục</div>
-                            <div className="text-2xl font-bold text-white md:text-xl">{stats.completedQuizzes}/{stats.totalQuizzes} Quiz</div>
-                        </div>
-                    </div>
-
-                    <div className="bg-slate-900/50 border border-indigo-500/30 rounded-xl p-6 flex items-center gap-4 transition-all duration-300 hover:bg-slate-900/70 hover:border-indigo-500 hover:-translate-y-0.5 md:p-5">
-                        <div className="flex-1">
                             <div className="text-xs text-slate-400 uppercase tracking-widest mb-1 font-semibold">Cấp độ</div>
                             <div className="text-2xl font-bold text-white md:text-xl flex items-baseline gap-2">
                                 LV. {user.level}
@@ -63,13 +56,6 @@ function QuizHeader({ userStats, levels }) {
                                     <div className="text-[0.7rem] text-right text-slate-400 mt-1">{user.totalXp} / {nextMinXp} XP</div>
                                 </div>
                             )}
-                        </div>
-                    </div>
-
-                    <div className="bg-slate-900/50 border border-indigo-500/30 rounded-xl p-6 flex items-center gap-4 transition-all duration-300 hover:bg-slate-900/70 hover:border-indigo-500 hover:-translate-y-0.5 md:p-5">
-                        <div className="flex-1">
-                            <div className="text-xs text-slate-400 uppercase tracking-widest mb-1 font-semibold">Tổng sao</div>
-                            <div className="text-2xl font-bold text-yellow-400 md:text-xl">⭐ {stats.totalStars}</div>
                         </div>
                     </div>
                 </div>
