@@ -1,6 +1,6 @@
 import axios from 'axios';
 import axiosInstance from '../config/axiosConfig';
-import tokenService from './tokenService';
+import tokenService from './tokenApi';
 
 const API_BASE_URL = import.meta.env.VITE_API_URL || 'http://localhost:8000/api';
 
@@ -68,9 +68,30 @@ const authService = {
         tokenService.setUser(user);
     },
 
-    // Get user data
-    getUser: () => {
-        return tokenService.getUser();
+    // Get user data (with optional refresh from API)
+    getUser: async (refresh = false) => {
+        const cachedUser = tokenService.getUser();
+
+        // If no cached user or not refreshing, return cached data
+        if (!cachedUser || !refresh) {
+            return cachedUser;
+        }
+
+        // Fetch fresh stats from API and merge
+        try {
+            const response = await authService.getMyStats();
+            if (response) {
+                console.log(response);
+                const updatedUser = response.user;
+                tokenService.setUser(updatedUser);
+                window.dispatchEvent(new Event('authChange'));
+                return updatedUser;
+            }
+            return cachedUser;
+        } catch (error) {
+            console.error('Error refreshing user stats:', error);
+            return cachedUser;
+        }
     },
 
     // Remove user data

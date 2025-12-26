@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
-import quizService from '../services/quizService';
+import quizService from '../apis/quizApi';
+import authService from '../apis/authApi';
 import QuizQuestion from '../components/QuizTaking/QuizQuestion';
 import QuizResults from '../components/QuizTaking/QuizResults';
 
@@ -18,6 +19,10 @@ function QuizTaking() {
     const [isCompleted, setIsCompleted] = useState(false);
     const [results, setResults] = useState(null);
 
+    const [isAnswerChecked, setIsAnswerChecked] = useState(false);
+    const [isAnswerCorrect, setIsAnswerCorrect] = useState(false);
+    const [correctAnswerId, setCorrectAnswerId] = useState(null);
+
     // Initialize quiz
     useEffect(() => {
         startQuizAttempt();
@@ -27,6 +32,10 @@ function QuizTaking() {
     useEffect(() => {
         if (questionIds.length > 0 && currentQuestionIndex < questionIds.length) {
             loadQuestion(questionIds[currentQuestionIndex]);
+            // Reset checking state for new question
+            setIsAnswerChecked(false);
+            setIsAnswerCorrect(false);
+            setCorrectAnswerId(null);
         }
     }, [currentQuestionIndex, questionIds]);
 
@@ -64,34 +73,41 @@ function QuizTaking() {
         }
     };
 
-    const handleSelectAnswer = async (optionId) => {
-        if (!currentQuestion || !attemptId) {
-            console.error('Missing data - Cannot submit answer');
-            return;
-        }
+    const handleSelectAnswer = (optionId) => {
+        if (isAnswerChecked) return; // Prevent changing answer after checking
 
-        // Save selected answer
         setSelectedAnswers(prev => ({
             ...prev,
             [currentQuestion.id]: optionId
         }));
+    };
 
-        // Submit answer to backend
+    const handleCheckAnswer = async () => {
+        const selectedOptionId = selectedAnswers[currentQuestion.id];
+        if (!selectedOptionId || !attemptId || !currentQuestion) return;
+
         try {
-            await quizService.submitAnswer(attemptId, currentQuestion.id, optionId);
+            const response = await quizService.submitAnswer(attemptId, currentQuestion.id, selectedOptionId);
+            // Assuming response contains isCorrect boolean and correctOptionId
+            // The backend MUST return { isCorrect: boolean, correctOptionId: number, ... }
+            const correct = response.data?.isCorrect || response.isCorrect;
+            const correctId = response.data?.correctOptionId || response.correctOptionId;
+
+            setIsAnswerCorrect(!!correct);
+            setCorrectAnswerId(correctId);
+            setIsAnswerChecked(true);
         } catch (err) {
             console.error('Error submitting answer:', err);
+            alert('Lỗi khi kiểm tra đáp án. Vui lòng thử lại.');
         }
+    };
 
-        // Auto-advance to next question after a short delay
-        setTimeout(() => {
-            if (currentQuestionIndex < questionIds.length - 1) {
-                setCurrentQuestionIndex(prev => prev + 1);
-            } else {
-                // Last question - submit quiz
-                completeQuiz();
-            }
-        }, 500);
+    const handleNextQuestion = () => {
+        if (currentQuestionIndex < questionIds.length - 1) {
+            setCurrentQuestionIndex(prev => prev + 1);
+        } else {
+            completeQuiz();
+        }
     };
 
     const completeQuiz = async () => {
@@ -100,6 +116,9 @@ function QuizTaking() {
             const attemptStatus = await quizService.getAttemptStatus(attemptId);
             setResults(attemptStatus);
             setIsCompleted(true);
+
+            // Refresh user data (XP, Level) - will auto-fetch fresh stats
+            await authService.getUser(true);
         } catch (err) {
             console.error('Error completing quiz:', err);
             setError('Không thể hoàn thành quiz. Vui lòng thử lại.');
@@ -181,6 +200,11 @@ function QuizTaking() {
                     totalQuestions={questionIds.length}
                     selectedAnswer={selectedAnswers[currentQuestion.id]}
                     onSelectAnswer={handleSelectAnswer}
+                    onCheckAnswer={handleCheckAnswer}
+                    onNextQuestion={handleNextQuestion}
+                    isChecked={isAnswerChecked}
+                    isCorrect={isAnswerCorrect}
+                    correctAnswerId={correctAnswerId}
                 />
             )}
         </div>

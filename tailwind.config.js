@@ -1,4 +1,4 @@
-/** @type {import('tailwindcss').Config} */
+// Minimal config for v4 compatibility
 export default {
     content: [
         "./index.html",

@@ -1,12 +1,14 @@
 import axiosInstance from '../config/axiosConfig';
 
 const quizService = {
-    getQuizzesByPlanet: async (planetId) => {
+    getQuizzesByPlanet: async (planetId, page = 1, limit = 10) => {
         try {
-            const response = await axiosInstance.get(`/quizzes/planet/${planetId}`);
+            const response = await axiosInstance.get(`/quizzes/planet/${planetId}?page=${page}&limit=${limit}`);
             // Backend returns {success: true, data: {items: [...], pagination: {...}}}
-            // Extract the items array from the nested structure
-            return response.data.data?.items || [];
+            return {
+                items: response.data.data?.items || [],
+                pagination: response.data.data?.pagination || { currentPage: 1, totalPages: 1, totalItems: 0 }
+            };
         } catch (error) {
             console.error(`Error fetching quizzes for planet ${planetId}:`, error);
             throw error;
@@ -81,6 +83,51 @@ const quizService = {
             return response.data.data.completedQuizIds || [];
         } catch (error) {
             console.error('Error fetching completed quizzes:', error);
+            throw error;
+        }
+    },
+
+    // Admin: Create a new quiz
+    create: async (data) => {
+        try {
+            const response = await axiosInstance.post('/quizzes', data);
+            return response.data;
+        } catch (error) {
+            console.error('Error creating quiz:', error);
+            throw error;
+        }
+    },
+
+    // Admin: Update a quiz
+    update: async (id, data) => {
+        try {
+            const response = await axiosInstance.put(`/quizzes/${id}`, data);
+            return response.data;
+        } catch (error) {
+            console.error(`Error updating quiz ${id}:`, error);
+            throw error;
+        }
+    },
+
+    // Admin: Delete a quiz
+    delete: async (id) => {
+        try {
+            const response = await axiosInstance.delete(`/quizzes/${id}`);
+            return response.data;
+        } catch (error) {
+            console.error(`Error deleting quiz ${id}:`, error);
+            throw error;
+        }
+    },
+
+    // Admin: Add questions to a quiz
+    addQuestions: async (quizId, data) => {
+        try {
+            // endpoint: POST /quizzes/:id/questions
+            const response = await axiosInstance.post(`/quizzes/${quizId}/questions`, data);
+            return response.data;
+        } catch (error) {
+            console.error(`Error adding questions to quiz ${quizId}:`, error);
             throw error;
         }
     }
